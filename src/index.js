@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { readTalker } = require('./utils/readAndWriteFiles');
+const { readTalker, readTalkerWithID } = require('./utils/readAndWriteFiles');
 
 const app = express();
 app.use(express.json());
@@ -16,10 +16,20 @@ app.get('/', (_request, response) => {
 app.get('/talker', async (req, res) => {
   const data = await readTalker();
 
-  if (data) {
-    return res.status(200).json(data);
+  if (!data) {
+    return res.status(200).json([]);
   }
-  return res.status(200).json([]);
+  return res.status(200).json(data);
+});
+
+app.get('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const person = await readTalkerWithID(id);
+
+  if (!person) {
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+  return res.status(200).json(person);
 });
 
 app.listen(PORT, () => {

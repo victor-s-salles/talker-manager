@@ -11,6 +11,17 @@ const readTalker = async () => {
     }
 };
 
+const readTalkerWithID = async (ID) => {
+    try {
+        const allData = await readTalker();
+        const person = allData.find((e) => e.id === Number(ID));
+        return person;
+        } catch (error) {
+            return null;
+        }
+};
+
 module.exports = {
     readTalker,
+    readTalkerWithID,
 };
