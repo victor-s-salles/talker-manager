@@ -35,9 +35,7 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(200).json(person);
 });
 
-app.post('/login', validateLogin, async (req, res) => {
-  const { email, password } = req.body;
-
+app.post('/login', validateLogin, (req, res) => {
   res.status(200).json({ token: generateToken() });
 });
 
