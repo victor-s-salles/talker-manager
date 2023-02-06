@@ -3,6 +3,7 @@ const express = require('express');
 const { readTalker, readTalkerWithID } = require('./utils/readAndWriteFiles');
 
 const generateToken = require('./utils/generateToken');
+const validateLogin = require('./middlewares/loginValidate');
 
 const app = express();
 app.use(express.json());
@@ -34,8 +35,8 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(200).json(person);
 });
 
-app.post('/login', async (req, res) => {
-  // const { email, password } = req.body;
+app.post('/login', validateLogin, async (req, res) => {
+  const { email, password } = req.body;
 
   res.status(200).json({ token: generateToken() });
 });
