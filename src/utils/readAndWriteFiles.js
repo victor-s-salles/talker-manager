@@ -21,7 +21,24 @@ const readTalkerWithID = async (ID) => {
         }
 };
 
+const writeTalker = async (data) => {
+    try {
+        const oldData = await readTalker();
+    const lastedID = oldData[oldData.length - 1].id;
+    const newData = data;
+   
+    newData.id = (lastedID + 1);
+    oldData.push(newData);
+
+    await fs.writeFile('src/talker.json', JSON.stringify(oldData));
+    return newData;
+    } catch (error) {
+        return null;
+    }
+};
+
 module.exports = {
     readTalker,
     readTalkerWithID,
+    writeTalker,
 };

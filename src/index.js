@@ -1,9 +1,12 @@
 const express = require('express');
 
-const { readTalker, readTalkerWithID } = require('./utils/readAndWriteFiles');
+const { readTalker, readTalkerWithID, writeTalker } = require('./utils/readAndWriteFiles');
 
 const generateToken = require('./utils/generateToken');
 const validateLogin = require('./middlewares/loginValidate');
+const tokenValidate = require('./middlewares/tokenValidate');
+const { nameValidate, ageValidate, 
+  watchedAtValidate, rateValidade } = require('./middlewares/registrationValidate');
 
 const app = express();
 app.use(express.json());
@@ -33,6 +36,13 @@ app.get('/talker/:id', async (req, res) => {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }
   return res.status(200).json(person);
+});
+
+app.post('/talker', tokenValidate, nameValidate, 
+ageValidate, watchedAtValidate, rateValidade, async (req, res) => {
+ const newData = await writeTalker(req.body);
+
+  res.status(201).json(newData);
 });
 
 app.post('/login', validateLogin, (req, res) => {
