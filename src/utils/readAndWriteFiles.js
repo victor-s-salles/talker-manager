@@ -58,10 +58,19 @@ const changeTalker = async (data, id) => {
     return newData;
 };
 
+const deleteTalker = async (id) => {
+    const oldData = await readTalker();
+    const arrayOfIds = oldData.map((e) => e.id);
+    const indexToRemove = arrayOfIds.indexOf(Number(id)); 
+    oldData.splice(indexToRemove, 1);
+    await writeTalker(oldData);
+};
+
 module.exports = {
     readTalker,
     readTalkerWithID,
     writeTalker,
     changeTalker,
     insertTalker,
+    deleteTalker,
 };
