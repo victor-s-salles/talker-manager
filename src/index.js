@@ -20,6 +20,13 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
+app.get('/talker/search', tokenValidate, async (req, res) => {
+  const { q } = req.query;
+  const data = await readTalker();
+  const filtredData = data.filter((e) => e.name.toLowerCase().includes(q.toLowerCase()));
+    res.status(200).json(filtredData);
+});
+
 app.get('/talker', async (req, res) => {
   const data = await readTalker();
 
