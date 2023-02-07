@@ -17,7 +17,7 @@ router.get('/search', tokenValidate, async (req, res) => {
       res.status(200).json(filtredData);
   });
 
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
     const data = await readTalker();
   
     if (!data) {
